@@ -1,8 +1,16 @@
 import { useDispatch } from 'react-redux'
 import { BASEURL } from '../../config/baseURl'
 import { AUTH_ROUTES } from '../../routes/auth.routes'
-import { updateUser } from '../../store/slices/userLogin'
+import {  LoginUserLogged, updateUser } from '../../store/slices/userLogin'
 
+
+export type UserLogin = {
+    password: string;
+    user: string;
+}
+export type UserLoginParams = {
+    user: UserLogin
+}
 export type UserProps = {
     firstname: string;
     lastname: string;
@@ -24,13 +32,14 @@ export type ReponseUserCreate = {
     updatedAt: string;
     __v: number
 }
+
 export type ResponseApi<T> = {
     success: true;
     statusCode: 200;
     message: string;
     object: T
 }
-export const LoginUserFunction = async ({user}: LoginUserCreateParams) => {
+export const LoginUserFunction = async ({ user }: LoginUserCreateParams) => {
     // const dispatch = useDispatch()
     const create = {
         firstname: user.firstname,
@@ -52,4 +61,23 @@ export const LoginUserFunction = async ({user}: LoginUserCreateParams) => {
         console.log('error')
     }
 
+}
+export const LoginUser = async ({ user }: UserLoginParams) => {
+    const login = {
+        login: user.user,
+        password: user.password
+    }
+    try {
+        const data = await fetch(`${BASEURL}${AUTH_ROUTES.LOGIN()}`, {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(login)
+        })
+        const response: ResponseApi<LoginUserLogged> = await data.json();
+        return response
+    } catch (error) {
+
+    }
 }

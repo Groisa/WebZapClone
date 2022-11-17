@@ -5,12 +5,15 @@ import { Button, Container, FormStyled, LeftContainer, LoginStructureStyled, Rig
 import InputText from '../InputText';
 import WebZapLogo from '../../assets/imgs/webZAPClone.png'
 import Typewriter from "typewriter-effect";
-import { LoginUserFunction, UserProps } from '../../functions/userFunctions';
+import { LoginUser, LoginUserFunction, UserLogin, UserProps } from '../../functions/userFunctions';
 import { toast } from "react-toastify"
 import ReactLoading from 'react-loading';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../store/slices/userLogin';
 
 
 const LoginEstructure: React.FC = () => {
+    const dispatch = useDispatch()
     const [newAcount, setNewAcount] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [userCreate, setUserCreate] = useState<UserProps>({
@@ -18,6 +21,10 @@ const LoginEstructure: React.FC = () => {
         lastname: '',
         login: '',
         password: '',
+    })
+    const [userLogin, setUserLogin] = useState<UserLogin>({
+        password: '',
+        user: '',
     })
     const handleFunction = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -29,18 +36,39 @@ const LoginEstructure: React.FC = () => {
             if (response?.success === true) {
                 toast.success(response.message)
                 setNewAcount(false)
-                
+
             } else {
                 toast.error(response?.message)
             }
             setLoading(false)
-            
+
+        } else {
+            setLoading(true)
+            const response = await LoginUser({
+                user: userLogin
+            })
+            if(response?.success === true) {
+                toast.success(response.message)
+                dispatch(updateUser({
+                    accessToken: response.object.accessToken,
+                    refreshToken: response.object.refreshToken,
+                    user: 'logged'
+                }))
+            }else {
+                toast.error(response?.message)
+            }
+            setLoading(false)
         }
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (newAcount === true) {
             setUserCreate({
                 ...userCreate,
+                [e.target.name]: e.target.value
+            })
+        } else {
+            setUserLogin({
+                ...userLogin,
                 [e.target.name]: e.target.value
             })
         }
@@ -135,17 +163,32 @@ const LoginEstructure: React.FC = () => {
                                 </SubContainer>
                             </FormStyled>
                         ) : (
-                            <>
-                                <InputText colorBackGround='#1C1E1F' name='Login' placeholder='Insira seu usuário' label='Login' type='text' />
-                                <InputText colorBackGround='#1C1E1F' name='Senha' placeholder='Insira sua senha' label='Senha' type={'password'} />
+                            <FormStyled onSubmit={(e) => handleFunction(e)} height={'100%'}>
+                                <InputText
+                                    colorBackGround='#1C1E1F'
+                                    name='user'
+                                    placeholder='Insira seu usuário'
+                                    label='Login' type='text'
+                                    value={userLogin.user}
+                                    onChange={handleChange}
+                                />
+                                <InputText
+                                    colorBackGround='#1C1E1F'
+                                    name='password'
+                                    placeholder='Insira sua senha'
+                                    label='Senha'
+                                    type={'password'}
+                                    value={userLogin.password}
+                                    onChange={handleChange}
+                                />
                                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 15 }}>
-                                    <Button><p>Entrar</p></Button>
+                                    <Button type='submit'><p>Entrar</p></Button>
                                 </div>
                                 <SubContainer>
                                     <p>Não possui cadastro?</p>
                                     <p onClick={userActions}>Quero me cadastra!</p>
                                 </SubContainer>
-                            </>
+                            </FormStyled>
                         )}
                     </div>
 

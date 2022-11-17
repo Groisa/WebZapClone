@@ -1,6 +1,10 @@
+// import { height } from '@mui/system'
 import styled from 'styled-components'
 import ContainerImage from '../../assets/imgs/conect.jpg'
 
+export interface FormContainer  {
+    height?: string
+}
 export const LoginStructureStyled = styled.div`
     align-items: center;
     justify-content: center;
@@ -66,11 +70,11 @@ export const RightContainer = styled.div`
         border: 1px solid rgba( 255, 255, 255, 0.18 );
     }
 `
-export const FormStyled = styled.form`
+export const FormStyled = styled.form<FormContainer>`
     overflow-y: scroll;
     overflow-x: hidden;
     width: 100%;
-    height: 60%;
+    height: ${({height}) => height ? height : '60%'};
     ::-webkit-scrollbar {
         width: 3px;
     }

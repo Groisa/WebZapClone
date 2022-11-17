@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-export interface LoginUser {
+export interface LoginUserLogged {
     accessToken: string;
     refreshToken: string;
     user: string;
 }
-const initialState: LoginUser = {
+const initialState: LoginUserLogged = {
     accessToken: '',
     refreshToken: '',
     user: '',
@@ -15,7 +15,7 @@ const slice = createSlice({
     name: 'userPrefix',
     initialState,
     reducers: {
-        updateUser: (state, action: PayloadAction<LoginUser>) => {
+        updateUser: (state, action: PayloadAction<LoginUserLogged>) => {
             state.accessToken = action.payload.accessToken;
             state.refreshToken = action.payload.refreshToken;
             state.user = action.payload.user;
