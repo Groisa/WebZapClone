@@ -34,9 +34,12 @@ const InputText: React.FC<InputTypeInterface> = ({
                     <div>
                         <p>{label}</p>
                         <input
+                            value={rest.value}
                             type={typeSecurity}
                             placeholder={placeholder}
-                            id={name}
+                            name={name}
+                            onChange={rest.onChange}
+                            required={rest.required}
                         />
                     </div>
                     <SegurityContainer onClick={handleSecurity}>
@@ -51,9 +54,11 @@ const InputText: React.FC<InputTypeInterface> = ({
                 <div>
                     <p>{label}</p>
                     <input
-                        type={type}
+                        value={rest.value}
                         placeholder={placeholder}
-                        id={name}
+                        name={name}
+                        onChange={rest.onChange}
+                        required={rest.required}
                     />
                 </div>
             )}

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import LoginEstructure from '../Components/LoginEstructure';
+import LoginEstructure from '../../Components/LoginEstructure';
 
 // import { Container } from './styles';
 

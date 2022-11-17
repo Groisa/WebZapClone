@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import ContainerImage from '../../../assets/imgs/conect.jpg'
+import ContainerImage from '../../assets/imgs/conect.jpg'
 
 export const LoginStructureStyled = styled.div`
     align-items: center;
@@ -66,7 +66,22 @@ export const RightContainer = styled.div`
         border: 1px solid rgba( 255, 255, 255, 0.18 );
     }
 `
-export const Button = styled.div`
+export const FormStyled = styled.form`
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    height: 60%;
+    ::-webkit-scrollbar {
+        width: 3px;
+    }
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #dad7d7;
+    }
+`
+export const Button = styled.button`
     background-color: transparent;
     border-color: #fff;
     color: #fff;
@@ -91,6 +106,7 @@ export const Button = styled.div`
     }
 `
 export const SubContainer = styled.div`
+    margin-bottom: 20;
     text-align: center;
     p:first-child {
         font-size: 18px;
@@ -108,7 +124,7 @@ export const SubContainer = styled.div`
             background-color: #fff;
             color: #000;
             cursor: pointer;
-            scale: 1.1;
+            scale: 1.0002;
             border-radius: 20px;
         }
     }
